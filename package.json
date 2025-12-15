@@ -1,0 +1,58 @@
+{
+  "name": "mnc",
+  "private": true,
+  "engines": {
+    "node": "20.x"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postinstall": "node ./scripts/remove-local-npm.js"
+  },
+  "dependencies": {
+    "aos": "^2.3.4",
+    "axios": "^0.25.0",
+    "cloudinary": "^2.8.0",
+    "clsx": "^2.1.1",
+    "cookie": "^0.4.1",
+    "core-js": "^3.41.0",
+    "csv-writer": "^1.6.0",
+    "dotenv": "^17.2.3",
+    "formidable": "^3.5.2",
+    "js-cookie": "^3.0.1",
+    "lucide-react": "^0.555.0",
+    "moment": "^2.29.1",
+    "mongodb": "^6.21.0",
+    "next": "^14.2.35",
+    "p-limit": "^7.2.0",
+    "package-name": "^0.1.0",
+    "pg": "^8.16.3",
+    "react": "^18.3.1",
+    "react-countup": "^6.1.1",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.5.0",
+    "react-markdown": "^8.0.0",
+    "react-multi-carousel": "^2.8.6",
+    "react-quill": "^2.0.0",
+    "react-slick": "^0.30.3",
+    "react-visibility-sensor-v2": "^1.0.0",
+    "shortid": "^2.2.16",
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^5.3.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.2",
+    "eslint": "8.7.0",
+    "eslint-config-next": "12.0.8",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.15"
+  },
+  "version": "1.0.0",
+  "main": "next.config.js",
+  "bugs": {
+    "url": "https://github.com/Jamia-Dev-Team/jamia-website/issues"
+  },
+  "homepage": "https://github.com/Jamia-Dev-Team/jamia-website#readme"
+}

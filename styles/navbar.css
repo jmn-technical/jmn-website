@@ -1,0 +1,156 @@
+.navbar {
+  font-family: "Nunito", sans-serif;
+  min-height: 65px;
+  position: absolute;
+
+  width: 100%;
+  z-index: 100;
+  position: fixed;
+  display: flex;
+}
+
+.navbar__right {
+  align-items: center;
+
+  color: #fff;
+}
+
+.nav__logo {
+  max-width: 80px;
+
+  padding: 10px;
+  display: flex;
+}
+.nav__name {
+  margin-left: 5px;
+  align-items: center;
+  display: flex;
+
+  max-width: 180px;
+  padding: 10px;
+}
+
+.dorpdown__div {
+  position: absolute;
+  margin-top: 10px;
+}
+.dropdown-menu li {
+  color: #fff;
+}
+
+.active__sub__nav {
+  background-color: rgb(9, 95, 35);
+}
+
+.service__group__span:hover {
+  background-color: rgb(9, 95, 35);
+}
+
+@media only screen and (max-width: 900px) {
+  .navbar__left {
+    background-color: rgba(0, 0, 0, 0.705);
+  }
+}
+
+#menu__icon {
+  color: #fff;
+  font-size: 40px;
+}
+
+/* <<<<<<<<< NAV COLLAPSE>>>>>>> */
+.nav__collapse {
+  position: absolute;
+  width: 100%;
+
+  background-color: rgba(0, 0, 0, 0.957);
+  margin-top: 85px;
+}
+
+.service__group__span {
+  align-items: center;
+  justify-content: space-between;
+}
+#service__group__arrow {
+  margin-right: 5px;
+}
+
+.development__list {
+  display: none;
+  position: absolute;
+
+  float: right;
+  margin-left: 200px;
+  margin-top: -37px;
+  flex-direction: column;
+}
+.development__list > li {
+  width: 180px;
+}
+.development__head:hover .development__list {
+  display: flex;
+}
+
+.design__list {
+  display: none;
+  position: absolute;
+
+  float: right;
+
+  margin-top: -40px;
+  margin-left: 132px;
+  flex-direction: column;
+}
+.design__list > li {
+  width: 180px;
+}
+.design__head:hover .design__list {
+  display: flex;
+}
+
+.marketing__list {
+  display: none;
+  position: absolute;
+
+  float: right;
+  margin-left: 200px;
+  margin-top: -40px;
+  flex-direction: column;
+}
+.marketing__list > li {
+  width: 180px;
+}
+.marketing__head:hover .marketing__list {
+  display: flex;
+}
+
+.hosting__list {
+  display: none;
+  position: absolute;
+
+  float: right;
+  margin-left: 200px;
+  margin-top: -40px;
+  flex-direction: column;
+}
+.hosting__list > li {
+  width: 180px;
+}
+.hosting__head:hover .hosting__list {
+  display: flex;
+}
+
+.expert__list {
+  display: none;
+  position: absolute;
+
+  float: right;
+  margin-left: 200px;
+  margin-top: -40px;
+  flex-direction: column;
+}
+.expert__list > li {
+  width: 180px;
+}
+.expert__head:hover .expert__list {
+  display: flex;
+}

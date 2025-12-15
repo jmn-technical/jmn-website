@@ -95,12 +95,14 @@ export default function ViewNews() {
         <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-5xl mx-auto">
           {/* Header */}
           <div className="mb-6">
-            <Link href="/admin/dashboard/news">
-              <button className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4">
-                <ArrowLeft className="w-5 h-5" />
-                <span>Back to News List</span>
-              </button>
-            </Link>
+         <Link
+  href="/admin/dashboard/news"
+  className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4"
+>
+  <ArrowLeft className="w-5 h-5" />
+  <span>Back to News List</span>
+</Link>
+
           </div>
 
           {/* Loading State */}
@@ -144,11 +146,13 @@ export default function ViewNews() {
                       {newsData.isPublished ? 'Published' : 'Draft'}
                     </span>
                   </div>
-                  <Link href={`/admin/dashboard/news/Edit/${id}`}>
-                    <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                      Edit Article
-                    </button>
-                  </Link>
+                 <Link
+  href={`/admin/dashboard/news/Edit/${id}`}
+  className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+>
+  Edit Article
+</Link>
+
                 </div>
               </div>
 
@@ -202,16 +206,20 @@ export default function ViewNews() {
               {/* Footer Actions */}
               <div className="px-8 py-6 bg-gray-50 border-t border-gray-200">
                 <div className="flex flex-wrap gap-3 justify-end">
-                  <Link href="/admin/dashboard/news">
-                    <button className="px-6 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-medium transition-colors">
-                      Back to List
-                    </button>
-                  </Link>
-                  <Link href={`/admin/dashboard/news/Edit/${id}`}>
-                    <button className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors">
-                      Edit Article
-                    </button>
-                  </Link>
+                <Link
+  href="/admin/dashboard/news"
+  className="px-6 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-medium transition-colors"
+>
+  Back to List
+</Link>
+
+<Link
+  href={`/admin/dashboard/news/Edit/${id}`}
+  className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors"
+>
+  Edit Article
+</Link>
+
                 </div>
               </div>
             </div>

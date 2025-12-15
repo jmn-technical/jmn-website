@@ -1,13 +1,12 @@
 // pages/api/news/limit/index.js
 const { getPool } = require("../../../../utils/db");
 
-// Map DB row (snake_case) → API object (camelCase)
+
 function mapNewsRow(row) {
   if (!row) return null;
 
   return {
-    _id: row._id,            // varchar id (if you have it)
-    id: row.id,              // integer primary key
+    id: row.id,           
     title: row.title,
     content: row.content,
     image: row.image,
@@ -26,11 +25,10 @@ export default async function handler(req, res) {
 
   try {
     switch (method) {
-      // GET → last 3 published news
+      
       case "GET": {
         const q = `
-          SELECT _id,
-                 id,
+          SELECT id,
                  title,
                  content,
                  image,
@@ -96,7 +94,7 @@ export default async function handler(req, res) {
             $8   -- slug
           )
           RETURNING
-            _id,
+            
             id,
             title,
             content,

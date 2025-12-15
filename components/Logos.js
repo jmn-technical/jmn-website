@@ -1,7 +1,9 @@
 import Image from "next/image";
 import React from "react";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
+
 const GraduateLogosSection = () => {
 
   const logoRows1 = [
@@ -104,46 +106,48 @@ const GraduateLogosSection = () => {
             </div>
           ))}
         </div>
-
-        <div className="space-y-12 lg:w-10/12 m-auto mt-12">
-          {logoRows2.map((row, rowIndex) => (
-            <div
-              key={`row-${rowIndex}`}
-              ><Carousel
-                swipeable={true}
-                draggable={true}
-                responsive={responsive}
-                infinite={true}
-                autoPlay={true}
-                autoPlaySpeed={1000}
-                keyBoardControl={true}
-                transitionDuration={2000}
-                customTransition={"ease 2000ms"}
-                removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
-              >
-                {row.map((university) => (
-                  <div
-                  
-                    key={university}
-                    className="flex flex-col items-center group"
-                  >
-                    <div className="w-24 h-24 md:w-24 md:h-24 bg-gray-50 rounded-full flex items-center justify-center p-4 border-2 border-gray-100 transition-all duration-300 group-hover:border-primary/30 group-hover:shadow-md">
-                      <div className="text-gray-400 text-xs text-center">
-                        <Image
-                          src={university}
-                          alt="University Logo"
-                          width={70}
-                          height={70}
-                          className="object-contain h-full w-full"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </Carousel>
+<div className="space-y-12 lg:w-10/12 m-auto mt-12">
+  {logoRows2.map((row, rowIndex) => (
+    <Swiper
+      key={`row-${rowIndex}`}
+      modules={[Autoplay]}
+      spaceBetween={32}
+      slidesPerView={3}
+      autoplay={{
+        delay: 0,
+        disableOnInteraction: false,
+      }}
+      speed={2000}
+      loop={true}
+      breakpoints={{
+        464: {
+          slidesPerView: 4,
+        },
+        1024: {
+          slidesPerView: 6,
+        },
+      }}
+      className="py-4"
+    >
+      {row.map((university) => (
+        <SwiperSlide key={university}>
+          <div className="flex flex-col items-center group">
+            <div className="w-24 h-24 md:w-24 md:h-24 bg-gray-50 rounded-full flex items-center justify-center p-4 border-2 border-gray-100 transition-all duration-300 group-hover:border-primary/30 group-hover:shadow-md">
+              <Image
+                src={university}
+                alt="University Logo"
+                width={70}
+                height={70}
+                className="object-contain h-full w-full"
+              />
             </div>
-          ))}
-        </div>
+          </div>
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  ))}
+</div>
+
       </div>
     </section>
   );

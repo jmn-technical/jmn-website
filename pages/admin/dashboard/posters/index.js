@@ -1,3 +1,5 @@
+// pages/admin/dashboard/posters/index.js
+
 import React, { useEffect, useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 import { ChevronLeft, ChevronRight } from "lucide-react";

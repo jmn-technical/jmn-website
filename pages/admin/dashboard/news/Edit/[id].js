@@ -8,9 +8,14 @@ import { HiOutlinePhotograph } from "react-icons/hi";
 import { BiImageAdd } from "react-icons/bi";
 import dynamic from "next/dynamic";
 
-// Import React Quill dynamically
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import "react-quill/dist/quill.snow.css";
+const ReactQuill = dynamic(
+  async () => {
+    const RQ = await import("react-quill");
+    await import("react-quill/dist/quill.snow.css");
+    return RQ;
+  },
+  { ssr: false }
+);
 
 export default function EditNews() {
   const [formData, setFormData] = useState({

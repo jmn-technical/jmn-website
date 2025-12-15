@@ -28,11 +28,10 @@
 //   }
 // };
 
-
 // pages/api/images/[id].js
-const { getPool } = require("../../../../utils/db"); 
+import { getPool } from "../../../../utils/db";
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   const {
     query: { id },
     method,
@@ -41,48 +40,48 @@ module.exports = async (req, res) => {
   const pool = getPool();
 
   switch (method) {
-    case "DELETE":
+    case "DELETE": {
       try {
         if (!id) {
           return res.status(400).json({
-            status: false,
+            success: false,
             error: "id is required",
           });
         }
 
-        // DELETE from the images table
         const deleteQuery = `
-          DELETE FROM images 
-          WHERE id = $1 
-          RETURNING id
+          DELETE FROM images
+          WHERE id = $1
+          RETURNING id;
         `;
+
         const { rows } = await pool.query(deleteQuery, [id]);
 
         if (!rows || rows.length === 0) {
           return res.status(404).json({
-            status: false,
+            success: false,
             error: "Image not found",
           });
         }
 
         return res.status(200).json({
-          status: true,
-          data: {},
+          success: true,
+          data: { id: rows[0].id },
         });
       } catch (error) {
         console.error("DELETE images error:", error);
-        return res
-          .status(500)
-          .json({ status: false, error: error.message });
+        return res.status(500).json({
+          success: false,
+          error: error.message || "Server error",
+        });
       }
+    }
 
     default:
       res.setHeader("Allow", ["DELETE"]);
-      return res
-        .status(405)
-        .json({
-          status: false,
-          error: `Method ${method} Not Allowed`,
-        });
+      return res.status(405).json({
+        success: false,
+        error: `Method ${method} Not Allowed`,
+      });
   }
-};
+}

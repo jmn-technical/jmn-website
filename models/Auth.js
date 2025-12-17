@@ -22,12 +22,20 @@ const { getPool } = require("../utils/db"); // <-- uses your existing PG pool
 
 class Auth {
   // find one user by username
-  static async findOne({ username }) {
-    const pool = getPool();
-    const q = `SELECT * FROM auth WHERE username = $1 LIMIT 1`;
-    const { rows } = await pool.query(q, [username]);
-    return rows[0] || null;
-  }
+static async findOne({ username }) {
+  const pool = getPool();
+
+  const q = `
+    SELECT id, username, password
+    FROM public.auth
+    WHERE username = $1
+    LIMIT 1;
+  `;
+
+  const { rows } = await pool.query(q, [username]);
+  return rows[0] || null;
+}
+
 
   // get all users
   static find() {

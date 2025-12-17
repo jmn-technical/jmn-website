@@ -1,7 +1,7 @@
 // pages/api/news/view/[slug].js
-const { getPool } = require("../../../../utils/db");
+import { getPool } from "../../../../utils/db";
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   const {
     query: { slug: slugParam },
     method,
@@ -23,12 +23,10 @@ module.exports = async (req, res) => {
         .json({ success: false, error: "slug required" });
     }
 
-    // decode slug for Malayalam / Unicode URLs
+    // Decode slug (Unicode safe)
     const slug = Array.isArray(slugParam)
       ? decodeURIComponent(slugParam[0])
       : decodeURIComponent(slugParam);
-
-    console.log("NEWS VIEW BY SLUG:", slug);
 
     const q = `
       SELECT *
@@ -38,15 +36,20 @@ module.exports = async (req, res) => {
     `;
     const { rows } = await pool.query(q, [slug]);
 
-    if (!rows || rows.length === 0) {
-      return res.status(404).json({ success: false, error: "Not found" });
+    if (!rows.length) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Not found" });
     }
 
-    return res.status(200).json({ success: true, data: rows[0] });
+    return res.status(200).json({
+      success: true,
+      data: rows[0],
+    });
   } catch (error) {
     console.error("NEWS VIEW GET ERROR:", error);
     return res
       .status(500)
-      .json({ success: false, error: error.message || "Server error" });
+      .json({ success: false, error: "Server error" });
   }
-};
+}

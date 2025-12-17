@@ -90,21 +90,26 @@ export default function AdminNav() {
     setIsCollapsed(!isCollapsed);
   };
 
-  const renderNavItem = (item, index) => {
-    return (
-      <Link href={item.link} key={index} passHref>
-        <a
-          onClick={handleLinkClick}
-          className={`flex items-center gap-3 rounded-xl p-3 px-5 ${
-            router.pathname === item.link ? "bg-zinc-800" : ""
-          } hover:bg-zinc-800 transition-colors duration-200`}
-        >
-          <p className="text-xl">{item.icon}</p>
-          <p className="text-base text-white font-medium">{item.label}</p>
-        </a>
-      </Link>
-    );
-  };
+const renderNavItem = (item, index) => {
+  const isActive = router.pathname === item.link;
+
+  return (
+    <Link
+      key={index}
+      href={item.link}
+      onClick={handleLinkClick}
+      className={`flex items-center gap-3 rounded-xl p-3 px-5
+        ${isActive ? "bg-zinc-800" : ""}
+        hover:bg-zinc-800 transition-colors duration-200`}
+    >
+      <span className="text-xl">{item.icon}</span>
+      <span className="text-base text-white font-medium">
+        {item.label}
+      </span>
+    </Link>
+  );
+};
+
 
   return (
     <>
@@ -156,13 +161,14 @@ export default function AdminNav() {
               {/* Logo/Header */}
               <div className="flex items-center justify-center bg-zinc-800 rounded-2xl p-6 mt-6 mb-6 flex-shrink-0">
                 <div className="relative w-48 h-48">
-                  <Image 
-                    src="/images/LOGO-5.png" 
-                    alt="Admin Dashboard" 
-                    layout="fill"
-                    objectFit="contain"
-                    priority
-                  />
+               <Image
+  src="/images/LOGO-5.png"
+  alt="Admin Dashboard"
+  fill
+  style={{ objectFit: "contain" }}
+  priority
+/>
+
                 </div>
               </div>
 
@@ -209,13 +215,14 @@ export default function AdminNav() {
             {/* Mobile Logo */}
             <div className="flex items-center justify-center bg-zinc-800 rounded-2xl p-6 mb-6 flex-shrink-0">
               <div className="relative w-32 h-32">
-                <Image 
-                  src="/images/LOGO-5.png" 
-                  alt="Admin Dashboard" 
-                  layout="fill"
-                  objectFit="contain"
-                  priority
-                />
+           <Image
+  src="/images/LOGO-5.png"
+  alt="Admin Dashboard"
+  fill
+  style={{ objectFit: "contain" }}
+  priority
+/>
+
               </div>
             </div>
             

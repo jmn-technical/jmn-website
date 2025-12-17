@@ -379,12 +379,17 @@ Jamia Madeenathunnoor`;
                     </span>
                   </div>
                 </div>
-                <Link href="/admin/dashboard/news/Create">
-                  <button
-                   className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 py-3 px-6 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center gap-2">
-                    <CirclePlus className="w-5 h-5" /> Add News
-                  </button>
-                </Link>
+          <Link
+  href="/admin/dashboard/news/Create"
+  className="bg-gradient-to-r from-emerald-600 to-emerald-700
+             hover:from-emerald-700 hover:to-emerald-800
+             py-3 px-6 text-white rounded-lg font-medium
+             transition-all shadow-lg hover:shadow-xl
+             flex items-center gap-2"
+>
+  <CirclePlus className="w-5 h-5" /> Add News
+</Link>
+
               </div>
 
               {/* Publication Status Filters */}
@@ -602,32 +607,30 @@ Jamia Madeenathunnoor`;
 
                             <td className="px-6 py-5">
                               <div className="flex items-center justify-center gap-2">
-                                <Link
-                                  href={`/admin/dashboard/news/View/${d?.id}`}
-                                >
-                                  <button
-                                    className="bg-gradient-to-br from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white p-2.5 rounded-lg text-xs font-medium transition-all shadow-md hover:shadow-lg relative group"
-                                    title="View"
-                                  >
-                                    <View className="w-4 h-4" />
-                                    <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 text-xs text-white bg-gray-900 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-lg">
-                                      View
-                                    </span>
-                                  </button>
-                                </Link>
-                                <Link
-                                  href={`/admin/dashboard/news/Edit/${d?.id}`}
-                                >
-                                  <button
-                                    className="bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white p-2.5 rounded-lg text-xs font-medium transition-all shadow-md hover:shadow-lg relative group"
-                                    title="Edit"
-                                  >
-                                    <SquarePen className="w-4 h-4" />
-                                    <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 text-xs text-white bg-gray-900 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-lg">
-                                      Edit
-                                    </span>
-                                  </button>
-                                </Link>
+                        <Link
+  href={`/admin/dashboard/news/View/${d?.id}`}
+  className="bg-gradient-to-br from-gray-600 to-gray-700
+             hover:from-gray-700 hover:to-gray-800
+             text-white p-2.5 rounded-lg text-xs font-medium
+             transition-all shadow-md hover:shadow-lg
+             relative group inline-flex"
+  title="View"
+>
+  <View className="w-4 h-4" />
+</Link>
+
+                      <Link
+  href={`/admin/dashboard/news/Edit/${d?.id}`}
+  className="bg-gradient-to-br from-blue-500 to-blue-600
+             hover:from-blue-600 hover:to-blue-700
+             text-white p-2.5 rounded-lg text-xs font-medium
+             transition-all shadow-md hover:shadow-lg
+             relative group inline-flex"
+  title="Edit"
+>
+  <SquarePen className="w-4 h-4" />
+</Link>
+
                                 <button
                                   onClick={() => copyToClipboard(d)}
                                   className="bg-gradient-to-br from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white p-2.5 rounded-lg text-xs font-medium transition-all shadow-md hover:shadow-lg relative group"

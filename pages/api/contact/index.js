@@ -1,7 +1,7 @@
 // pages/api/contact/index.js
 const { getPool } = require("../../../utils/db");
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   const pool = getPool();
 
   switch (req.method) {

@@ -80,7 +80,9 @@ export default async function handler(req, res) {
         .json({ success: false, error: "Username and password required" });
     }
 
-    const user = await Auth.findOne({ username });
+   const user = await Auth.findOne({ username });
+console.log("DB USER:", user);
+
 
     if (!user || user.password !== password) {
       return res

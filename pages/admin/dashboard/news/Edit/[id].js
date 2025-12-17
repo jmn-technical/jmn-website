@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import cookies from "js-cookie";
 import AdminNav from "../../../../../components/AdminNav";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { BiImageAdd } from "react-icons/bi";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 const ReactQuill = dynamic(
   async () => {
@@ -34,7 +34,8 @@ export default function EditNews() {
   const [originalImageId, setOriginalImageId] = useState("");
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-
+const [updatePublishedDate, setUpdatePublishedDate] = useState(false);
+ 
   const router = useRouter();
   const { id } = router.query;
   const fileInputRef = useRef(null);
@@ -194,10 +195,7 @@ export default function EditNews() {
     };
   };
 
-  /**
-   * Handle submit
-   * status: "published" | "draft"
-   */
+
   const handleSubmit = async (e, status) => {
     e.preventDefault();
 
@@ -219,20 +217,27 @@ export default function EditNews() {
     setSubmitting(true);
 
     try {
-      // Upload new image if selected
+  
       const { imageUrl, publicId } = await uploadImage();
 
-      const isPublishing = status === "published";
+const isPublishing = status === "published";
 
-      const updateData = {
-        title: formData.title,
-        category: formData.category,
-        content: formData.content,
-        image: imageUrl,
-        imgId: publicId,
-        isPublished: isPublishing,
-        publishedAt: isPublishing ? new Date().toISOString() : null,
-      };
+const updateData = {
+  title: formData.title,
+  category: formData.category,
+  content: formData.content,
+  image: imageUrl,
+  imgId: publicId,
+};
+
+
+if (isPublishing) {
+  updateData.isPublished = true;
+
+  if (updatePublishedDate) {
+    updateData.publishedAt = new Date().toISOString();
+  }
+}
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_PORT}/api/news/${id}`,
@@ -406,11 +411,16 @@ export default function EditNews() {
                       <div>
                         {imagePreview ? (
                           <div className="relative border border-gray-300 rounded-lg overflow-hidden bg-gray-50">
-                            <img
-                              src={imagePreview}
-                              alt="Preview"
-                              className="w-full h-64 object-cover"
-                            />
+                       <div className="relative w-full h-64">
+  <Image
+    src={imagePreview}
+    alt="Preview"
+    fill
+    className="object-cover"
+    sizes="(max-width: 768px) 100vw, 400px"
+  />
+</div>
+
                             <button
                               type="button"
                               onClick={handleRemoveImage}
@@ -434,14 +444,39 @@ export default function EditNews() {
                               </span>
                             </p>
                           </div>
+                          
                         )}
+                                                      
                       </div>
                     </div>
                   </div>
+    
                 </div>
+
+
+
 
                 {/* Action Buttons */}
                 <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex gap-4 justify-end">
+                  <div className="flex items-center   justify-start  gap-2">
+
+                    
+<input
+  type="checkbox"
+  id="updatePublishedDate"
+  checked={updatePublishedDate}
+  onChange={(e) => setUpdatePublishedDate(e.target.checked)}
+  disabled={submitting}
+  className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+/>
+
+  <label
+    htmlFor="updatePublishedDate"
+    className="text-sm text-gray-700"
+  >
+    Update published date
+  </label>
+</div>
                   <button
                     type="button"
                     onClick={() => router.push("/admin/dashboard/news")}
@@ -522,7 +557,6 @@ export default function EditNews() {
         </div>
       </div>
 
-      {/* Custom Styles for Quill Editor */}
       <style>{`
         .edit-news-editor .ql-container {
           min-height: 400px;

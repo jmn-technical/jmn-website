@@ -39,7 +39,6 @@ export default async function handler(req, res) {
 
   try {
     switch (method) {
-      // GET: one news by id
       case "GET": {
         const q = `
           SELECT id, title, category, content, image, imgid,
@@ -72,7 +71,7 @@ export default async function handler(req, res) {
           content,
           image,
           imgId,
-          slug, // in case you added slug
+          slug, 
         } = body;
 
         // accept both isPublished and ispublished

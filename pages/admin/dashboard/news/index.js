@@ -602,7 +602,7 @@ Jamia Madeenathunnoor`;
                               </span>
                             </td>
                             <td className="px-6 py-5 text-sm text-gray-700 font-medium">
-                              {createdAt}
+                              {publishedAt}
                             </td>
 
                             <td className="px-6 py-5">

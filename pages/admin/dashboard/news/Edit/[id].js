@@ -457,8 +457,8 @@ if (isPublishing) {
 
 
                 {/* Action Buttons */}
-                <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex gap-4 justify-end">
-                  <div className="flex items-center   justify-start  gap-2">
+                <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex gap-4 justify-between">
+                  <div className="flex items-center     gap-2">
 
                     
 <input
@@ -477,6 +477,8 @@ if (isPublishing) {
     Update published date
   </label>
 </div>
+
+<div className="flex gap-4">
                   <button
                     type="button"
                     onClick={() => router.push("/admin/dashboard/news")}
@@ -550,6 +552,7 @@ if (isPublishing) {
                       "Update News"
                     )}
                   </button>
+                  </div>
                 </div>
               </form>
             </div>

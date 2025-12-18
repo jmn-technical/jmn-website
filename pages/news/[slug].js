@@ -1,5 +1,9 @@
 // pages/news/[slug].js
 import React, { useEffect, useState } from "react";
+
+
+
+
 import Image from "next/image";
 import Slider from "react-slick";
 import {
@@ -172,6 +176,43 @@ Jamia Madeenathunnoor`;
     autoplaySpeed: 5000,
     arrows: false,
   };
+const THUMB_HEIGHT = 384; // h-96
+
+function DynamicImage({ image, title }) {
+  const [isTall, setIsTall] = useState(false);
+
+  return (
+    <div
+      className={`relative w-full ${
+        isTall
+          ? "lg:h-96 lg:overflow-hidden h-auto"
+          : "h-auto"
+      }`}
+    >
+      <Image
+        src={image}
+        alt={title}
+        sizes="(max-width: 1024px) 100vw, 100vw"
+        width={1600}
+        height={900}
+        priority
+        className={
+          isTall
+            ? "lg:object-cover lg:object-top object-contain w-full h-auto"
+            : "object-contain w-full h-auto"
+        }
+        onLoadingComplete={(img) => {
+          if (img.naturalHeight > THUMB_HEIGHT) {
+            setIsTall(true);
+          }
+        }}
+      />
+    </div>
+  );
+}
+
+
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -206,17 +247,9 @@ Jamia Madeenathunnoor`;
               <div className="lg:col-span-2">
                 <article className="bg-white rounded-xl shadow-lg overflow-hidden">
                   {/* Featured Image */}
-                  {news?.image && (
-                    <div className="relative w-full h-96">
-                      <Image
-                        src={news.image}
-                        alt={news.title}
-                        layout="fill"
-                        className="object-cover object-top"
-                        priority
-                      />
-                    </div>
-                  )}
+              {news?.image && (
+  <DynamicImage image={news.image} title={news.title} />
+)}
 
                   <div className="p-8">
                     {/* Article Header */}

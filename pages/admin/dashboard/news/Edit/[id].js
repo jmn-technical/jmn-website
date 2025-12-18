@@ -148,122 +148,112 @@ const [updatePublishedDate, setUpdatePublishedDate] = useState(false);
     }
   };
 
-  /**
-   * Upload new image (if any) via /api/upload, delete old Cloudinary image if replaced.
-   * Returns { imageUrl, publicId }
-   */
-  const uploadImage = async () => {
-    // No new image selected → keep existing
-    if (!imageFile) {
-      return {
-        imageUrl: formData.image,
-        publicId: formData.imgId,
-      };
-    }
 
-    const form = new FormData();
-    form.append("image", imageFile);
+const uploadImage = async () => {
+  if (!imageFile) {
+    return null;
+  }
 
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: form,
-    });
+  const form = new FormData();
+  form.append("image", imageFile);
 
-    const data = await res.json();
+  const res = await fetch("/api/upload", {
+    method: "POST",
+    body: form,
+  });
 
-    if (!res.ok) {
-      throw new Error(data.error || "Image upload failed");
-    }
+  const data = await res.json();
 
-    // Delete old image if there was one and it's different from new
-    if (originalImageId && originalImageId !== data.publicId) {
-      try {
-        await fetch("/api/deleteImage", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ publicId: originalImageId }),
-        });
-      } catch (err) {
-        console.error("Failed to delete old image:", err);
-        // Don't block main update on this
-      }
-    }
+  if (!res.ok) {
+    throw new Error(data.error || "Image upload failed");
+  }
 
-    return {
-      imageUrl: data.imageUrl,
-      publicId: data.publicId,
-    };
+  // ✅ MATCH API RESPONSE KEYS
+  return {
+    imageUrl: data.image,
+    publicId: data.imgid,
   };
-
-
-  const handleSubmit = async (e, status) => {
-    e.preventDefault();
-
-    if (!formData.title.trim()) {
-      alert("Please enter a title");
-      return;
-    }
-
-    if (!formData.category) {
-      alert("Please select a category");
-      return;
-    }
-
-    if (!formData.content.trim()) {
-      alert("Please enter content");
-      return;
-    }
-
-    setSubmitting(true);
-
-    try {
-  
-      const { imageUrl, publicId } = await uploadImage();
-
-const isPublishing = status === "published";
-
-const updateData = {
-  title: formData.title,
-  category: formData.category,
-  content: formData.content,
-  image: imageUrl,
-  imgId: publicId,
 };
 
 
-if (isPublishing) {
-  updateData.isPublished = true;
 
-  if (updatePublishedDate) {
-    updateData.publishedAt = new Date().toISOString();
+const handleSubmit = async (e, status) => {
+  e.preventDefault();
+
+  if (!formData.title.trim()) {
+    alert("Please enter a title");
+    return;
   }
-}
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_PORT}/api/news/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updateData),
-        }
-      );
+  if (!formData.category) {
+    alert("Please select a category");
+    return;
+  }
 
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({}));
-        throw new Error(errData.error || `HTTP error! status: ${res.status}`);
-      }
+  if (!formData.content.trim()) {
+    alert("Please enter content");
+    return;
+  }
 
-      alert("News updated successfully!");
-      router.push("/admin/dashboard/news");
-    } catch (error) {
-      console.error("Error updating news:", error);
-      alert("Failed to update news: " + error.message);
-    } finally {
-      setSubmitting(false);
+  setSubmitting(true);
+
+  try {
+    const uploadResult = await uploadImage();
+
+    const updateData = {
+      title: formData.title,
+      category: formData.category,
+      content: formData.content,
+    };
+
+    if (uploadResult) {
+      updateData.image = uploadResult.imageUrl;
+      updateData.imgId = uploadResult.publicId;
     }
-  };
+
+    if (status === "published") {
+      updateData.isPublished = true;
+
+      if (updatePublishedDate) {
+        updateData.publishedAt = new Date().toISOString();
+      }
+    }
+
+    // 5️⃣ Update DB
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_PORT}/api/news/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData),
+      }
+    );
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.error || `HTTP error! status: ${res.status}`);
+    }
+
+    // 6️⃣ Sync state after success
+    if (uploadResult) {
+      setFormData((prev) => ({
+        ...prev,
+        image: uploadResult.imageUrl,
+        imgId: uploadResult.publicId,
+      }));
+    }
+
+    alert("News updated successfully!");
+    router.push("/admin/dashboard/news");
+  } catch (error) {
+    console.error("Error updating news:", error);
+    alert("Failed to update news: " + error.message);
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-gray-50">

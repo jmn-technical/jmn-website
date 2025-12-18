@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   try {
     switch (method) {
-      // GET all images
+
       case "GET": {
         const result = await pool.query(
           "SELECT * FROM images ORDER BY id DESC"

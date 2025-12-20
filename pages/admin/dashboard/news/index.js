@@ -305,11 +305,10 @@ Follow For Madeenathunnoor Live Updates
 
 Instagram:
 https://www.instagram.com/madeenathunnoor.live/
-
 Facebook:
 https://www.facebook.com/Madeenathunnoor.Live
 
-Jamia Madeenathunnoor`;
+*Jamia Madeenathunnoor*`;
   
   // Copy to clipboard
   navigator.clipboard.writeText(text).then(() => {

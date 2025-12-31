@@ -4,6 +4,7 @@ import {   FaChalkboardTeacher, FaUserGraduate, FaCalendarAlt, FaArrowRight, FaB
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { hssProgrammes } from '../../assets/data/programmes';
+import Link from 'next/link';
 
 const HSSProgrammePage = () => {
  
@@ -167,12 +168,10 @@ const HSSProgrammePage = () => {
             </div>
           </div>
 
-          {/* CTA */}
-          {/* <div className="text-center mt-16">
-            <button className="bg-primary hover:bg-primary/70 text-white px-8 py-3 rounded-lg font-medium inline-flex items-center">
-              Download Prospectus <FaArrowRight className="ml-2" />
-            </button>
-          </div> */}
+           {/* CTA */}
+          <Link href="/Programmes/ApplicationForm" passHref className="text-center mt-16 bg-primary hover:bg-primary/70 text-white px-8 py-3 rounded-lg font-medium inline-flex items-center">
+              Get an Admission <FaArrowRight className="ml-2" />
+          </Link>
         </div>
       </section>
    <Footer/>

@@ -8,13 +8,14 @@ import { useRouter } from "next/router";
 import cookies from "js-cookie";
 import { BookText, LogOut } from "lucide-react";
 import { MessageSquareText } from "lucide-react";
-
+import { LuLayoutDashboard, LuMessageCircleQuestion } from "react-icons/lu";
 export default function AdminNav() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [logOuting, setLogOuting] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   // Check if screen is mobile size
   useEffect(() => {
@@ -31,14 +32,14 @@ export default function AdminNav() {
     };
 
     checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
-    return () => window.removeEventListener('resize', checkScreenSize);
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
   // Dispatch sidebar state changes
   useEffect(() => {
-    const event = new CustomEvent('sidebarToggle', { 
-      detail: { collapsed: isCollapsed || isMobile } 
+    const event = new CustomEvent("sidebarToggle", {
+      detail: { collapsed: isCollapsed || isMobile },
     });
     window.dispatchEvent(event);
   }, [isCollapsed, isMobile]);
@@ -47,16 +48,25 @@ export default function AdminNav() {
   useEffect(() => {
     const handleClickOutside = (event) => {
       const target = event.target;
-      if (isOpen && !target.closest('.mobile-menu') && !target.closest('.mobile-menu-button')) {
+      if (
+        isOpen &&
+        !target.closest(".mobile-menu") &&
+        !target.closest(".mobile-menu-button")
+      ) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
   const NAV_ITEMS = [
+    {
+      link: "/admin/dashboard",
+      icon: <LuLayoutDashboard />,
+      label: "Dashboard",
+    },
     {
       link: "/admin/dashboard/news",
       icon: <PiNewspaperClippingFill />,
@@ -67,10 +77,15 @@ export default function AdminNav() {
       icon: <BookText />,
       label: "Posters",
     },
-     {
+    {
       link: "/admin/dashboard/contacts",
-      icon: <MessageSquareText  />,
+      icon: <MessageSquareText />,
       label: "Messages",
+    },
+    {
+      link: "/admin/dashboard/enquiries",
+      icon: <LuMessageCircleQuestion />,
+      label: "Enquiries",
     },
   ];
 
@@ -90,26 +105,23 @@ export default function AdminNav() {
     setIsCollapsed(!isCollapsed);
   };
 
-const renderNavItem = (item, index) => {
-  const isActive = router.pathname === item.link;
+  const renderNavItem = (item, index) => {
+    const isActive = router.pathname === item.link;
 
-  return (
-    <Link
-      key={index}
-      href={item.link}
-      onClick={handleLinkClick}
-      className={`flex items-center gap-3 rounded-xl p-3 px-5
+    return (
+      <Link
+        key={index}
+        href={item.link}
+        onClick={handleLinkClick}
+        className={`flex items-center gap-3 rounded-xl p-3 px-5
         ${isActive ? "bg-zinc-800" : ""}
         hover:bg-zinc-800 transition-colors duration-200`}
-    >
-      <span className="text-xl">{item.icon}</span>
-      <span className="text-base text-white font-medium">
-        {item.label}
-      </span>
-    </Link>
-  );
-};
-
+      >
+        <span className="text-xl">{item.icon}</span>
+        <span className="text-base text-white font-medium">{item.label}</span>
+      </Link>
+    );
+  };
 
   return (
     <>
@@ -133,19 +145,52 @@ const renderNavItem = (item, index) => {
         </button>
       )}
 
+      {/* Logout Confirmation Modal */}
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-sm overflow-hidden transform transition-all scale-100 p-6 text-center">
+            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <LogOut className="w-8 h-8 text-red-600" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              Confirm Logout
+            </h3>
+            <p className="text-gray-500 mb-6">
+              Are you sure you want to log out of the admin panel?
+            </p>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="flex-1 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={logOut}
+                disabled={logOuting}
+                className="flex-1 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors shadow-lg shadow-red-200 flex items-center justify-center gap-2"
+              >
+                {logOuting ? <>Logging out...</> : <>Yes, Logout</>}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Overlay for mobile */}
       {isMobile && isOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40" 
-          onClick={() => setIsOpen(false)} 
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => setIsOpen(false)}
         />
       )}
 
       {/* Desktop Sidebar */}
       {!isMobile && (
-        <aside 
+        <aside
           className={`fixed top-0 left-0 h-screen bg-zinc-900 text-white z-30 transition-all duration-300 ${
-            isCollapsed ? 'w-0 -translate-x-full' : 'w-[280px] translate-x-0'
+            isCollapsed ? "w-0 -translate-x-full" : "w-[280px] translate-x-0"
           } overflow-hidden`}
         >
           <div className="h-full flex flex-col overflow-y-auto">
@@ -161,14 +206,13 @@ const renderNavItem = (item, index) => {
               {/* Logo/Header */}
               <div className="flex items-center justify-center bg-zinc-800 rounded-2xl p-6 mt-6 mb-6 flex-shrink-0">
                 <div className="relative w-48 h-48">
-               <Image
-  src="/images/LOGO-5.png"
-  alt="Admin Dashboard"
-  fill
-  style={{ objectFit: "contain" }}
-  priority
-/>
-
+                  <Image
+                    src="/images/LOGO-5.png"
+                    alt="Admin Dashboard"
+                    fill
+                    style={{ objectFit: "contain" }}
+                    priority
+                  />
                 </div>
               </div>
 
@@ -180,7 +224,7 @@ const renderNavItem = (item, index) => {
               {/* Logout Button - Fixed at bottom */}
               <div className="mt-auto pt-4">
                 <button
-                  onClick={logOut}
+                  onClick={() => setShowLogoutConfirm(true)}
                   disabled={logOuting}
                   className="flex items-center gap-3 rounded-xl p-3 px-5 bg-red-700 hover:bg-red-800 transition-colors duration-200 w-full disabled:opacity-50 justify-between"
                 >
@@ -188,7 +232,7 @@ const renderNavItem = (item, index) => {
                     {logOuting ? "Logging out..." : "Logout"}
                   </p>
 
-                    <LogOut />
+                  <LogOut />
                 </button>
               </div>
             </div>
@@ -198,9 +242,9 @@ const renderNavItem = (item, index) => {
 
       {/* Mobile/Tablet Dropdown Menu */}
       {isMobile && (
-        <div 
+        <div
           className={`mobile-menu fixed top-0 left-0 h-screen w-80 bg-zinc-900 text-white z-50 transform transition-transform duration-300 ease-in-out ${
-            isOpen ? 'translate-x-0' : '-translate-x-full'
+            isOpen ? "translate-x-0" : "-translate-x-full"
           } overflow-y-auto`}
         >
           {/* Close Button - Mobile */}
@@ -215,33 +259,32 @@ const renderNavItem = (item, index) => {
             {/* Mobile Logo */}
             <div className="flex items-center justify-center bg-zinc-800 rounded-2xl p-6 mb-6 flex-shrink-0">
               <div className="relative w-32 h-32">
-           <Image
-  src="/images/LOGO-5.png"
-  alt="Admin Dashboard"
-  fill
-  style={{ objectFit: "contain" }}
-  priority
-/>
-
+                <Image
+                  src="/images/LOGO-5.png"
+                  alt="Admin Dashboard"
+                  fill
+                  style={{ objectFit: "contain" }}
+                  priority
+                />
               </div>
             </div>
-            
+
             {/* Mobile Navigation Items */}
             <div className="flex gap-2 flex-col flex-1">
               {NAV_ITEMS.map((item, index) => renderNavItem(item, index))}
             </div>
-            
+
             {/* Mobile Logout Button - Fixed at bottom */}
             <div className="mt-auto pt-4">
               <button
-                onClick={logOut}
+                onClick={() => setShowLogoutConfirm(true)}
                 disabled={logOuting}
                 className="flex items-center gap-3 rounded-xl p-3 px-5 bg-red-700 hover:bg-red-800 transition-colors duration-200 w-full disabled:opacity-50 justify-between"
               >
                 <p className="text-base text-white font-medium">
                   {logOuting ? "Logging out..." : "Logout"}
                 </p>
-                 <LogOut />
+                <LogOut />
               </button>
             </div>
           </div>
@@ -249,9 +292,9 @@ const renderNavItem = (item, index) => {
       )}
 
       {/* Styles */}
-      <style >{`
+      <style>{`
         /* Prevent body scroll when mobile menu is open */
-        ${isOpen && isMobile ? 'body { overflow: hidden; }' : ''}
+        ${isOpen && isMobile ? "body { overflow: hidden; }" : ""}
         
         /* Smooth scrollbar for sidebar */
         .mobile-menu::-webkit-scrollbar,

@@ -5,11 +5,12 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { hsProgrammes } from '../../assets/data/programmes';
 import { MdAssignmentInd } from 'react-icons/md';
+import Link from 'next/link';
 export default function rabbani() {
    
   const features = [
     {
-      title: " Community Leadershi",
+      title: "Community Leadership",
       description: "Practical training for mosque, social, and grassroots service roles",
       icon: <MdAssignmentInd className="text-2xl  text-blue-600" />
     },
@@ -141,11 +142,9 @@ export default function rabbani() {
           </div>
 
           {/* CTA */}
-          {/* <div className="text-center mt-16">
-            <button className="bg-primary hover:bg-primary/70 text-white px-8 py-3 rounded-lg font-medium inline-flex items-center">
-              Apply Now <FaArrowRight className="ml-2" />
-            </button>
-          </div> */}
+          <Link href="/Programmes/ApplicationForm" passHref className="text-center mt-16 bg-primary hover:bg-primary/70 text-white px-8 py-3 rounded-lg font-medium inline-flex items-center">
+              Get an Admission <FaArrowRight className="ml-2" />
+          </Link>
         </div>
       </section>
       <Footer />

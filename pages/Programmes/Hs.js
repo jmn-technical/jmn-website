@@ -4,6 +4,7 @@ import { FaChalkboardTeacher, FaUserGraduate, FaCalendarAlt, FaArrowRight, FaBoo
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { hsProgrammes } from '../../assets/data/programmes';
+import Link from 'next/link';
 export default function Hs() {
 
 
@@ -47,7 +48,7 @@ export default function Hs() {
 
       {/* Programme Overview */}
       <section className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto ">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">JUNIOR SCHOOL</h2>
           <div className="prose prose-lg text-gray-600 mb-12">
             <p>
@@ -141,11 +142,9 @@ export default function Hs() {
           </div>
 
           {/* CTA */}
-          {/* <div className="text-center mt-16">
-            <button className="bg-primary hover:bg-primary/70 text-white px-8 py-3 rounded-lg font-medium inline-flex items-center">
-              Apply Now <FaArrowRight className="ml-2" />
-            </button>
-          </div> */}
+          <Link href="/Programmes/ApplicationForm" passHref className="text-center mt-16 bg-primary hover:bg-primary/70 text-white px-8 py-3 rounded-lg font-medium inline-flex items-center">
+              Get an Admission <FaArrowRight className="ml-2" />
+          </Link>
         </div>
       </section>
       <Footer />

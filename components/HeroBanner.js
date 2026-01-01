@@ -92,7 +92,7 @@ const HeroBanner = () => {
                   {/* </a> */}
                   <Link passHref href={"/Programmes"}>
                     <button className="bg-white hover:bg-white/80 text-primary px-6 py-3 rounded-md flex items-center transition-colors">
-                      Programmes <FaBookOpen className="ml-2" />
+                      Get an Admission <FaBookOpen className="ml-2" />
                     </button>
                   </Link>
                 </div>
